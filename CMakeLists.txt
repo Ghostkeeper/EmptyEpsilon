@@ -17,7 +17,8 @@ if(NOT SERIOUS_PROTON_FOUND)
   GIT_TAG feature_cmake
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
  )
- set(SERIOUS_PROTON_LIB ${CMAKE_INSTALL_PREFIX}/lib/seriousproton.so)
+ set(SERIOUS_PROTON_LIB ${CMAKE_INSTALL_PREFIX}/lib/libseriousproton.a)
+ set(SERIOUS_PROTON_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/seriousproton)
 endif()
 
 if(DEFINED ENABLE_CRASH_LOGGER)
@@ -246,7 +247,10 @@ add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${SOURCES})
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
+## Setup Serious Proton
+link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 target_link_libraries(${EXECUTABLE_NAME} ${SERIOUS_PROTON_LIB})
+include_directories(${SERIOUS_PROTON_INCLUDE_DIR})
 add_dependencies(${EXECUTABLE_NAME} SeriousProton)
 
 ## Setup SFML
