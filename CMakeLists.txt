@@ -254,7 +254,23 @@ include_directories(${SERIOUS_PROTON_INCLUDE_DIR})
 add_dependencies(${EXECUTABLE_NAME} SeriousProton)
 
 ## Setup SFML
-find_package(SFML 2.3 REQUIRED system window graphics network audio)
+find_package(SFML 2.3 COMPONENTS system window graphics network audio)
+if(NOT ${SFML_FOUND})
+	message(STATUS "Couldn't find SFML. Building it from scratch. Installing to ${CMAKE_INSTALL_PREFIX}")
+	ExternalProject_Add(SFML
+		GIT_REPOSITORY https://github.com/SFML/SFML.git
+		GIT_TAG 2.4.2 #Always build with this tag, so we're sure it is stable.
+		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+	)
+	set(SFML_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include) #Otherwise this is filled by FindSFML.cmake.
+	set(SFML_LIBRARIES
+		libsfml-audio
+		libsfml-graphics
+		libsfml-network
+		libsfml-system
+		libsfml-window
+	)
+endif()
 include_directories(${SFML_INCLUDE_DIR})
 target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES})
 
