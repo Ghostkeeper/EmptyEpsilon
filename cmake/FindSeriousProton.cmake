@@ -1,1 +1,0 @@
-/home/cherubim/Projects/SeriousProton/cmake/FindSeriousProton.cmake

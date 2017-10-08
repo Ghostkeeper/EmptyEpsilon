@@ -8,12 +8,12 @@ set(CMAKE_MODULE_PATH
  ${CMAKE_CURRENT_SOURCE_DIR}/cmake
  ${CMAKE_MODULE_PATH}
 )
-find_package(SeriousProton)
+find_package(seriousproton)
 if(NOT SERIOUS_PROTON_FOUND)
- message(STATUS "Building SeriousProton from scratch.")
+ message(STATUS "Building seriousproton from scratch.")
  include(ExternalProject)
- ExternalProject_Add(SeriousProton
-  GIT_REPOSITORY https://github.com/Ghostkeeper/SeriousProton
+ ExternalProject_Add(seriousproton
+  GIT_REPOSITORY ~/Projects/SeriousProton #TODO: temporary for testing
   GIT_TAG feature_cmake
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
  )
@@ -251,7 +251,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 target_link_libraries(${EXECUTABLE_NAME} ${SERIOUS_PROTON_LIB})
 include_directories(${SERIOUS_PROTON_INCLUDE_DIR})
-add_dependencies(${EXECUTABLE_NAME} SeriousProton)
+add_dependencies(${EXECUTABLE_NAME} seriousproton)
 
 ## Setup SFML
 find_package(SFML 2.3 COMPONENTS system window graphics network audio)
