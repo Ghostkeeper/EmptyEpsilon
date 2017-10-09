@@ -285,6 +285,7 @@ if(NOT ${SFML_FOUND})
   libsfml-system
   libsfml-window
  )
+ add_dependencies(${EXECUTABLE_NAME} SFML)
 endif()
 include_directories(${SFML_INCLUDE_DIR})
 target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES})
