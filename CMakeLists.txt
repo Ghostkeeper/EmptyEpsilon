@@ -234,9 +234,10 @@ add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${SOURCES})
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
-## Setup Serious Proton
+## Setup Serious Proton and its included sublibraries
 find_package(seriousproton)
-if(NOT SERIOUS_PROTON_FOUND)
+find_package(lua)
+if(NOT SERIOUS_PROTON_FOUND OR NOT LUA_FOUND)
  message(STATUS "Building seriousproton from scratch.")
  include(ExternalProject)
  ExternalProject_Add(seriousproton
@@ -249,8 +250,8 @@ if(NOT SERIOUS_PROTON_FOUND)
  add_dependencies(${EXECUTABLE_NAME} seriousproton)
 endif()
 link_directories(${CMAKE_INSTALL_PREFIX}/lib)
-target_link_libraries(${EXECUTABLE_NAME} ${SERIOUS_PROTON_LIB})
-include_directories(${SERIOUS_PROTON_INCLUDE_DIR})
+target_link_libraries(${EXECUTABLE_NAME} ${SERIOUS_PROTON_LIB} ${LUA_LIB})
+include_directories(${SERIOUS_PROTON_INCLUDE_DIR} ${LUA_INCLUDE_DIR})
 
 ## Setup SFML
 find_package(SFML 2.3 COMPONENTS system window graphics network audio)
