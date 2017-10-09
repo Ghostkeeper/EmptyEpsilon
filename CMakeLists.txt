@@ -265,9 +265,16 @@ include_directories(${SERIOUS_PROTON_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${BOX2D_INC
 find_package(SFML 2.3 COMPONENTS system window graphics network audio)
 if(NOT ${SFML_FOUND})
  message(STATUS "Couldn't find SFML. Building it from scratch. Installing to ${CMAKE_INSTALL_PREFIX}")
+ set(SFML_PATCH_COMMAND "")
+ if(${UNIX})
+  ## On GCC in Ubuntu there's a bug with linking to SFML. See https://en.sfml-dev.org/forums/index.php?topic=20638.0 for details.
+  SET(SFML_PATCH_COMMAND patch -p0 ${CMAKE_CURRENT_BINARY_DIR}/SFML-prefix/src/SFML/src/SFML/Graphics/CMakeLists.txt < ${CMAKE_CURRENT_SOURCE_DIR}/cmake/SFMLonGCC53.patch)
+ endif()
+ include(ExternalProject)
  ExternalProject_Add(SFML
   GIT_REPOSITORY https://github.com/SFML/SFML.git
   GIT_TAG 2.4.2 #Always build with this tag, so we're sure it is stable.
+  PATCH_COMMAND ${SFML_PATCH_COMMAND}
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
  )
  set(SFML_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include) #Otherwise this is filled by FindSFML.cmake.
