@@ -244,7 +244,7 @@ if(NOT SERIOUS_PROTON_FOUND)
   GIT_TAG feature_cmake
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
  )
- set(SERIOUS_PROTON_LIB ${CMAKE_INSTALL_PREFIX}/lib/libseriousproton.a)
+ set(SERIOUS_PROTON_LIB libseriousproton)
  set(SERIOUS_PROTON_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/seriousproton)
  add_dependencies(${EXECUTABLE_NAME} seriousproton)
 endif()
