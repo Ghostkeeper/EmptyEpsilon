@@ -243,8 +243,7 @@ if(NOT SERIOUS_PROTON_FOUND OR NOT LUA_FOUND OR NOT BOX2D_FOUND OR NOT GLEW_FOUN
  message(STATUS "Building seriousproton, lua, box2d and glew from scratch.")
  include(ExternalProject)
  ExternalProject_Add(seriousproton
-  GIT_REPOSITORY ~/Projects/SeriousProton #TODO: temporary for testing
-  GIT_TAG feature_cmake
+  GIT_REPOSITORY https://github.com/daid/SeriousProton
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
  )
  set(SERIOUS_PROTON_LIB ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}seriousproton${CMAKE_STATIC_LIBRARY_SUFFIX})
