@@ -3,23 +3,10 @@ cmake_minimum_required(VERSION 2.8.12)
 
 option(ENABLE_CRASH_LOGGER "Enable the drmingw crash logging facilities" OFF)
 
-# Find the SeriousProton dependency.
 set(CMAKE_MODULE_PATH
  ${CMAKE_CURRENT_SOURCE_DIR}/cmake
  ${CMAKE_MODULE_PATH}
 )
-find_package(seriousproton)
-if(NOT SERIOUS_PROTON_FOUND)
- message(STATUS "Building seriousproton from scratch.")
- include(ExternalProject)
- ExternalProject_Add(seriousproton
-  GIT_REPOSITORY ~/Projects/SeriousProton #TODO: temporary for testing
-  GIT_TAG feature_cmake
-  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
- )
- set(SERIOUS_PROTON_LIB ${CMAKE_INSTALL_PREFIX}/lib/libseriousproton.a)
- set(SERIOUS_PROTON_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/seriousproton)
-endif()
 
 if(DEFINED ENABLE_CRASH_LOGGER)
  if(WIN32)
@@ -248,10 +235,22 @@ add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${SOURCES})
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
 ## Setup Serious Proton
+find_package(seriousproton)
+if(NOT SERIOUS_PROTON_FOUND)
+ message(STATUS "Building seriousproton from scratch.")
+ include(ExternalProject)
+ ExternalProject_Add(seriousproton
+  GIT_REPOSITORY ~/Projects/SeriousProton #TODO: temporary for testing
+  GIT_TAG feature_cmake
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+ )
+ set(SERIOUS_PROTON_LIB ${CMAKE_INSTALL_PREFIX}/lib/libseriousproton.a)
+ set(SERIOUS_PROTON_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/seriousproton)
+ add_dependencies(${EXECUTABLE_NAME} seriousproton)
+endif()
 link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 target_link_libraries(${EXECUTABLE_NAME} ${SERIOUS_PROTON_LIB})
 include_directories(${SERIOUS_PROTON_INCLUDE_DIR})
-add_dependencies(${EXECUTABLE_NAME} seriousproton)
 
 ## Setup SFML
 find_package(SFML 2.3 COMPONENTS system window graphics network audio)
