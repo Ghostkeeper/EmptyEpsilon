@@ -237,6 +237,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 ## Setup Serious Proton and its included sublibraries
 find_package(seriousproton)
 find_package(lua)
+find_package(box2d)
 if(NOT SERIOUS_PROTON_FOUND OR NOT LUA_FOUND)
  message(STATUS "Building seriousproton from scratch.")
  include(ExternalProject)
@@ -250,8 +251,8 @@ if(NOT SERIOUS_PROTON_FOUND OR NOT LUA_FOUND)
  add_dependencies(${EXECUTABLE_NAME} seriousproton)
 endif()
 link_directories(${CMAKE_INSTALL_PREFIX}/lib)
-target_link_libraries(${EXECUTABLE_NAME} ${SERIOUS_PROTON_LIB} ${LUA_LIB})
-include_directories(${SERIOUS_PROTON_INCLUDE_DIR} ${LUA_INCLUDE_DIR})
+target_link_libraries(${EXECUTABLE_NAME} ${SERIOUS_PROTON_LIB} ${LUA_LIB} ${BOX2D_LIB})
+include_directories(${SERIOUS_PROTON_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${BOX2D_INCLUDE_DIR})
 
 ## Setup SFML
 find_package(SFML 2.3 COMPONENTS system window graphics network audio)
