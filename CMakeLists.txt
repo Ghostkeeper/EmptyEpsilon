@@ -238,8 +238,8 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 find_package(seriousproton)
 find_package(lua)
 find_package(box2d)
-if(NOT SERIOUS_PROTON_FOUND OR NOT LUA_FOUND)
- message(STATUS "Building seriousproton from scratch.")
+if(NOT SERIOUS_PROTON_FOUND OR NOT LUA_FOUND OR NOT BOX2D_FOUND)
+ message(STATUS "Building seriousproton, lua and box2d from scratch.")
  include(ExternalProject)
  ExternalProject_Add(seriousproton
   GIT_REPOSITORY ~/Projects/SeriousProton #TODO: temporary for testing
