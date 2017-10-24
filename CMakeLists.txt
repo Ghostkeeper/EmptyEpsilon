@@ -325,11 +325,11 @@ endif()
 include(InstallRequiredSystemLibraries)
 
 if(WIN32)
+  #Include MinGW's runtime libraries in the installation.
+  get_filename_component(MING_DLL_PATH ${CMAKE_CXX_COMPILER} DIRECTORY CACHE)
   install(FILES ${MING_DLL_PATH}/libstdc++-6.dll DESTINATION .)
   install(FILES ${MING_DLL_PATH}/libgcc_s_sjlj-1.dll DESTINATION .)
   install(FILES /usr/i686-w64-mingw32/lib/libwinpthread-1.dll DESTINATION .)
-  install(FILES ${SFML_LIBRARIES} DESTINATION .)
-  install(FILES ${SFML_DEPENDENCIES} DESTINATION .)
   if(ENABLE_CRASH_LOGGER)
     install(FILES ${DRMINGW_ROOT}/bin/dbghelp.dll DESTINATION .)
     install(FILES ${DRMINGW_ROOT}/bin/exchndl.dll DESTINATION .)
@@ -337,6 +337,9 @@ if(WIN32)
     install(FILES ${DRMINGW_ROOT}/bin/symsrv.dll DESTINATION .)
     install(FILES ${DRMINGW_ROOT}/bin/symsrv.yes DESTINATION .)
   endif()
+
+  install(FILES ${SFML_LIBRARIES} DESTINATION .)
+  install(FILES ${SFML_DEPENDENCIES} DESTINATION .)
 
   install(DIRECTORY resources DESTINATION .)
   install(DIRECTORY scripts DESTINATION .)
