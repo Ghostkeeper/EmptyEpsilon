@@ -282,6 +282,7 @@ if(NOT ${SFML_FOUND})
   #They also add the major version number after the DLL name and don't include any prefix.
   #They have specific exception cases for it (annoying!), see https://github.com/SFML/SFML/blob/master/cmake/Macros.cmake
   set(SFML_LIBRARIES
+   ${CMAKE_INSTALL_PREFIX}/bin/openal32${CMAKE_SHARED_LIBRARY_SUFFIX}
    ${CMAKE_INSTALL_PREFIX}/bin/sfml-audio-2${CMAKE_SHARED_LIBRARY_SUFFIX}
    ${CMAKE_INSTALL_PREFIX}/bin/sfml-graphics-2${CMAKE_SHARED_LIBRARY_SUFFIX}
    ${CMAKE_INSTALL_PREFIX}/bin/sfml-network-2${CMAKE_SHARED_LIBRARY_SUFFIX}
@@ -290,6 +291,7 @@ if(NOT ${SFML_FOUND})
   )
  else()
   set(SFML_LIBRARIES
+   ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}openal32${CMAKE_SHARED_LIBRARY_SUFFIX}
    ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}sfml-audio${CMAKE_SHARED_LIBRARY_SUFFIX}
    ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}sfml-graphics${CMAKE_SHARED_LIBRARY_SUFFIX}
    ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}sfml-network${CMAKE_SHARED_LIBRARY_SUFFIX}
@@ -326,12 +328,8 @@ if(WIN32)
   install(FILES ${MING_DLL_PATH}/libstdc++-6.dll DESTINATION .)
   install(FILES ${MING_DLL_PATH}/libgcc_s_sjlj-1.dll DESTINATION .)
   install(FILES /usr/i686-w64-mingw32/lib/libwinpthread-1.dll DESTINATION .)
-  install(FILES ${SFML_ROOT}/bin/openal32.dll DESTINATION .)
-  install(FILES ${SFML_ROOT}/bin/sfml-audio-2.dll DESTINATION .)
-  install(FILES ${SFML_ROOT}/bin/sfml-graphics-2.dll DESTINATION .)
-  install(FILES ${SFML_ROOT}/bin/sfml-network-2.dll DESTINATION .)
-  install(FILES ${SFML_ROOT}/bin/sfml-system-2.dll DESTINATION .)
-  install(FILES ${SFML_ROOT}/bin/sfml-window-2.dll DESTINATION .)
+  install(FILES ${SFML_LIBRARIES} DESTINATION .)
+  install(FILES ${SFML_DEPENDENCIES} DESTINATION .)
   if(ENABLE_CRASH_LOGGER)
     install(FILES ${DRMINGW_ROOT}/bin/dbghelp.dll DESTINATION .)
     install(FILES ${DRMINGW_ROOT}/bin/exchndl.dll DESTINATION .)
